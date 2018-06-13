@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import blockReducer from '../components/block/block.reducer';
+import appReducer from '../components/app/app.reducer';
 
 export default combineReducers({
-    blockReducer
+    appReducer
 });
