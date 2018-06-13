@@ -19,7 +19,8 @@ const initialState = {
         previousHealthStatus: {
             serverStatus: ''
         }
-    }
+    },
+    blocks: []
 };
 
 const appActionTypes = {
@@ -54,12 +55,17 @@ export const checkHealthStatusThunk = (url, idx) => (dispatch, getState) => {
             } else {
                 status = 'DOWN';
             }
-            let newHealthStatus = getState().appReducer.block;
-            newHealthStatus.previousHealthStatus.serverStatus = status;
+            let newHealthStatus = { ...getState().appReducer };
+            newHealthStatus.block.previousHealthStatus.serverStatus = newHealthStatus.block.server.serverStatus;
+            newHealthStatus.blocks[idx] = newHealthStatus.block;
             dispatch(
-                healthStatusActions.setHealthStatusAction({ status, newHealthStatus, name: url })
+                healthStatusActions.setHealthStatusAction({
+                    status,
+                    newHealthStatus: newHealthStatus.block,
+                    name: url
+                })
             );
-            dispatch(healthStatusActions.isCheckingHealthStatusAction(false));
+         //   dispatch(healthStatusActions.isCheckingHealthStatusAction(false));
         });
     }
 };
