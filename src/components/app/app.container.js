@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import healthStatusActions from './app.reducer';
+import { checkHealthStatusThunk } from './app.reducer';
+import { healthStatusActions } from './app.reducer';
 import App from './app.view';
 
 const mapStateToProps = ({ appReducer }) => {
@@ -9,10 +10,12 @@ const mapStateToProps = ({ appReducer }) => {
     };
 };
 
+const { getPreviousHealthStatusAction } = healthStatusActions;
 const mapDispatchToProps = dispatch =>
     bindActionCreators(
         {
-            ...healthStatusActions
+            checkHealthStatusThunk,
+            getPreviousHealthStatusAction
         },
         dispatch
     );
