@@ -9,11 +9,7 @@ export default class BlockView extends React.Component {
         let currentStatus =
             serverStatus === 'UP' ? 'pass' : serverStatus === 'DOWN' ? 'fail' : 'other';
         return (
-            <div className="block-container">
-            <div
-                className={`block ${currentStatus}`}
-                onClick={() => this.renderPrevHealthStatus()}
-            >
+            <div className={`block ${currentStatus}`} onClick={() => this.renderPrevHealthStatus()}>
                 <div className="server-name">{`Server Name: ${serverName}`}</div>
                 <div className="server-status">{`Server Status: ${serverStatus}`}</div>
                 <div className="previous-server-status">
@@ -21,7 +17,6 @@ export default class BlockView extends React.Component {
                         ? `Previous Health Status: ${previousHealthStatus}`
                         : 'No Previous Health Status'}
                 </div>
-            </div>
             </div>
         );
     }

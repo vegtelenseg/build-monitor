@@ -105,7 +105,9 @@ export default class AppView extends React.Component {
         const monitors = [];
         const { endpoints } = this;
         for (let i = 0; i < endpoints.length; i++) {
-            const monitor = <ServerHealthNode serverName={endpoints[i].url} timeout={endpoints[i].timeout} />;
+            const monitor = (
+                <ServerHealthNode serverName={endpoints[i].url} timeout={endpoints[i].timeout} />
+            );
             monitors.push(monitor);
         }
         this.setState({
@@ -113,6 +115,6 @@ export default class AppView extends React.Component {
         });
     }
     render() {
-        return <div>{this.state.monitors}</div>;
+        return <div className="block-container">{this.state.monitors}</div>;
     }
 }
