@@ -1,13 +1,26 @@
-.block {
-    margin: 1em;
-}
-
-.pass {
-    background: green;
-}
-.fail {
-    background: red;
-}
-.other {
-    background: grey;
+.block-container {
+    display: flex;
+    flex-flow: row wrap;
+    .block {
+        margin: 1em;
+        padding: 2em;
+        border-radius: 10px;
+        text-align: center;
+        margin: 10px 1% 0 1%;
+        
+        cursor: pointer;
+        &.pass {
+            background: green;
+        }
+        &.fail {
+            background: red;
+        }
+        &.other {
+            background: grey;
+        }
+        .previous-server-status {
+            position: relative;
+            bottom: 0;
+        }
+    }
 }

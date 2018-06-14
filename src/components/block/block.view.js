@@ -1,20 +1,35 @@
 import React from 'react';
 
-export default class Block extends React.Component {
+export default class BlockView extends React.Component {
+    state = {
+        isVisible: false
+    };
     render() {
         const { serverName, serverStatus, previousHealthStatus, onClick } = this.props;
-        let currentStatus = serverStatus === 'UP' ? 'pass' : serverStatus === 'DOWN' ? 'fail' :'other'
+        let currentStatus =
+            serverStatus === 'UP' ? 'pass' : serverStatus === 'DOWN' ? 'fail' : 'other';
         return (
-            <div className={'block ' + `${currentStatus}`}>
+            <div className="block-container">
+            <div
+                className={'block ' + `${currentStatus}`}
+                onClick={() => this.renderPrevHealthStatus()}
+            >
                 <div className="server-name">{`Server Name: ${serverName}`}</div>
-                <div className="server status">{`Server Status: ${serverStatus}`}</div>
-                <input type="submit" value="Previous Health Status" onClick={onClick} />
-                <div>
-                    {previousHealthStatus
-                        ? `Previous Health Status: ${previousHealthStatus.serverStatus}`
+                <div className="server-status">{`Server Status: ${serverStatus}`}</div>
+                <div className="previous-server-status">
+                    {previousHealthStatus && this.state.isVisible
+                        ? `Previous Health Status: ${previousHealthStatus}`
                         : 'No Previous Health Status'}
                 </div>
             </div>
+            </div>
         );
+    }
+    renderPrevHealthStatus() {
+        this.setState(prevState => {
+            return {
+                isVisible: true
+            };
+        });
     }
 }
