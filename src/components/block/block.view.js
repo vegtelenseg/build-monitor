@@ -5,13 +5,13 @@ export default class BlockView extends React.Component {
         isVisible: false
     };
     render() {
-        const { serverName, serverStatus, previousHealthStatus, onClick } = this.props;
+        const { serverName, serverStatus, previousHealthStatus } = this.props;
         let currentStatus =
             serverStatus === 'UP' ? 'pass' : serverStatus === 'DOWN' ? 'fail' : 'other';
         return (
             <div className="block-container">
             <div
-                className={'block ' + `${currentStatus}`}
+                className={`block ${currentStatus}`}
                 onClick={() => this.renderPrevHealthStatus()}
             >
                 <div className="server-name">{`Server Name: ${serverName}`}</div>

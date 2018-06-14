@@ -16,7 +16,6 @@ class ServerHealthNode extends React.Component {
         };
         this.start = this.start.bind(this);
         this.ping = this.ping.bind(this);
-        this.handle;
         this.updateBlock = this.updateBlock.bind(this);
         this.start();
     }
@@ -46,7 +45,6 @@ class ServerHealthNode extends React.Component {
         ).on('error', () => this.updateBlock('OTHER'));
     }
     updateBlock(status) {
-        const self = this;
         const time = Date.now();
         this.setState(prevState => {
             return {

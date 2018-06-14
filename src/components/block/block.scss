@@ -1,13 +1,14 @@
 .block-container {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
+    width: 100% !important;
+    padding: 0rem;
     .block {
         margin: 1em;
         padding: 2em;
         border-radius: 10px;
         text-align: center;
-        margin: 10px 1% 0 1%;
-        
+        flex-basis: 32%;
         cursor: pointer;
         &.pass {
             background: green;
