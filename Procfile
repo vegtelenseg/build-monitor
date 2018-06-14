@@ -1,0 +1,1 @@
+web: yarn add serve && ./node_modules/.bin/serve -s build
