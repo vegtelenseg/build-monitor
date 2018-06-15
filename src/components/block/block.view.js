@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class BlockView extends React.Component {
+export default class BlockView extends React.PureComponent {
     state = {
         isVisible: false
     };
