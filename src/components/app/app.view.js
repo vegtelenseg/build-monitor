@@ -1,7 +1,7 @@
 import React from 'react';
 import request from 'request';
 import BlockView from '../block/block.view';
-
+import endpoints from '../../endpoints';
 class ServerHealthNode extends React.Component {
     constructor(options) {
         super(options);
@@ -10,7 +10,7 @@ class ServerHealthNode extends React.Component {
             serverName: options.serverName,
             timeout: options.timeout,
             status: 'OTHER',
-            previousState: {
+            previousStatus: {
                 status: ''
             }
         };
@@ -31,37 +31,34 @@ class ServerHealthNode extends React.Component {
         this.handle = null;
     }
     ping() {
-        request(
-            this.state.serverName,
-            function(error, res, body) {
-                if (error) {
-                    this.updateBlock('OTHER');
-                } else if (res.statusCode === 200) {
-                    this.updateBlock('UP');
-                } else {
-                    this.updateBlock('DOWN');
-                }
-            }.bind(this)
-        ).on('error', () => this.updateBlock('OTHER'));
-    }
-    updateBlock(status) {
-        const time = Date.now();
-        this.setState(prevState => {
-            return {
-                ...prevState,
-                time,
-                status,
-                previousState: prevState
-            };
+        request(this.state.serverName, (error, res, body) => {
+            const serverName = this.state.serverName;
+            if (error) {
+                this.updateBlock('OTHER', serverName);
+            } else if (res.statusCode === 200) {
+                this.updateBlock('UP', serverName);
+            } else {
+                this.updateBlock('DOWN', serverName);
+            }
         });
     }
+    updateBlock(status, serverName) {
+        if (serverName === this.state.serverName && this.state.status === status) return;
+        this.setState(prevState => ({
+            ...prevState,
+            status,
+            previousStatus: {
+                status: prevState.status
+            }
+        }));
+    }
     render() {
-        const { status, serverName, previousState } = this.state;
+        const { status, serverName, previousStatus } = this.state;
         return (
             <BlockView
                 serverName={serverName}
                 serverStatus={status}
-                previousHealthStatus={previousState.status}
+                previousHealthStatus={previousStatus.status}
             />
         );
     }
@@ -71,32 +68,7 @@ export default class AppView extends React.Component {
     constructor() {
         super();
         const timeout = 0.125;
-        this.endpoints = [
-            {
-                url: 'https://cognition.dev.stackworx.cloud/api/status',
-                timeout
-            },
-            {
-                url: 'https://ord.dev.stackworx.io/health',
-                timeout
-            },
-            {
-                url: 'https://api.durf.dev.stackworx.io/health',
-                timeout
-            },
-            {
-                url: 'https://prima.run/health',
-                timeout
-            },
-            {
-                url: 'https://stackworx.io/',
-                timeout
-            },
-            {
-                url: 'https://stackworx.io/',
-                timeout
-            }
-        ];
+        this.endpoints = endpoints;
         this.state = {
             monitors: []
         };
@@ -105,9 +77,7 @@ export default class AppView extends React.Component {
         const monitors = [];
         const { endpoints } = this;
         for (let i = 0; i < endpoints.length; i++) {
-            const monitor = (
-                <ServerHealthNode serverName={endpoints[i].url} timeout={endpoints[i].timeout} />
-            );
+            const monitor = <ServerHealthNode key={i} {...endpoints[i]} />;
             monitors.push(monitor);
         }
         this.setState({
