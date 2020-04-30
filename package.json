@@ -11,7 +11,8 @@
     "react-dom": "^16.4.0",
     "react-resizable": "^1.7.5",
     "react-scripts": "1.1.4",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "snyk": "^1.316.1"
   },
   "scripts": {
     "start": "npm-run-all -p watch-css start-js",
@@ -23,6 +24,9 @@
     "eject": "react-scripts eject",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "prettier": "prettier --write --tab-width=4 --single-quote=true --print-width=100 \"src/**/*.{js,scss}\""
-  }
+    "prettier": "prettier --write --tab-width=4 --single-quote=true --print-width=100 \"src/**/*.{js,scss}\"",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true
 }
